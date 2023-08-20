@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory } from 'vue-router';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -11,31 +11,26 @@ const router = createRouter({
         {
           path: 'dashboard',
           component: () => import('../pages/dashboard.vue'),
+          meta: { requiresAuth: true }
         },
         {
           path: 'account-settings',
           component: () => import('../pages/account-settings.vue'),
+          meta: { requiresAuth: true }
         },
         {
-          path: 'typography',
-          component: () => import('../pages/typography.vue'),
+          path: 'users',
+          component: () => import('../pages/users.vue'),
+          meta: { requiresAuth: true}
         },
         {
-          path: 'icons',
-          component: () => import('../pages/icons.vue'),
+          path: 'users/create',
+          component: () => import('../pages/UserForm.vue'),
+          meta: { requiresAuth: true}
         },
-        {
-          path: 'cards',
-          component: () => import('../pages/cards.vue'),
-        },
-        {
-          path: 'tables',
-          component: () => import('../pages/tables.vue'),
-        },
-        {
-          path: 'form-layouts',
-          component: () => import('../pages/form-layouts.vue'),
-        },
+        { path: '/users/:id', component: () => import('../pages/User.vue'), },
+        { path: '/users/:id/edit', component: () => import('../pages/UserForm.vue'), },
+        
       ],
     },
     {
@@ -45,6 +40,7 @@ const router = createRouter({
         {
           path: 'login',
           component: () => import('../pages/login.vue'),
+          name: 'Login'
         },
         {
           path: 'register',
@@ -58,5 +54,17 @@ const router = createRouter({
     },
   ],
 })
+
+// router.beforeEach((to, from, next) => {
+//   if (to.matched.some(record => record.meta.requiresAuth)) {
+//     if (!store.getters.isLoggedIn) {
+//       next({ name: 'Login' })
+//     } else {
+//       next() 
+//     }
+//   } else {
+//     next()
+//   }
+// })
 
 export default router

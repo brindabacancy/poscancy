@@ -58,6 +58,13 @@ const upgradeBanner = computed(() => {
           to: '/account-settings',
         }"
       />
+      <VerticalNavLink
+        :item="{
+          title: 'Manage Users',
+          icon: 'mdi-account-multiple',
+          to: '/users',
+        }"
+      />
     </template>
 
 

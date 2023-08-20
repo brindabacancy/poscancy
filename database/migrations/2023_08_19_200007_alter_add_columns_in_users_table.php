@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::table('users', function (Blueprint $table) {
             $table->renameColumn('name', 'first_name');
             $table->string('last_name')->after('email');
-            $table->bigInteger('mobile')->after('last_name');
-            $table->text('address')->after('mobile');
+            $table->bigInteger('mobile')->after('last_name')->nullable();
+            $table->text('address')->after('mobile')->nullable();
         });
     }
 

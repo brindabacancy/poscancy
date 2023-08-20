@@ -9,6 +9,7 @@ import '@layouts/styles/index.scss'
 import '@styles/styles.scss'
 import { createPinia } from 'pinia'
 import { createApp } from 'vue'
+import isLoggedMixin from './mixins/LoginMixin'
 
 loadFonts()
 
@@ -16,6 +17,7 @@ loadFonts()
 // Create vue app
 const app = createApp(App)
 
+app.mixin(isLoggedMixin)
 
 // Use plugins
 app.use(vuetify)
