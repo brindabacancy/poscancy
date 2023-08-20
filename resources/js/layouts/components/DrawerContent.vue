@@ -56,6 +56,13 @@ const upgradeBanner = computed(() => {
         icon: { icon: 'mdi-account-multiple' }
       }"
     />
+    <VerticalNavLink
+      :item="{
+        title: 'Manage Events',
+        icon: 'mdi-eventbrite',
+        to: '/events',
+      }"
+    />
   </ul>
 
  

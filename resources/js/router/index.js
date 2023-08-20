@@ -8,28 +8,19 @@ const router = createRouter({
       path: '/',
       component: () => import('../layouts/default.vue'),
       children: [
-        {
-          path: 'dashboard',
-          component: () => import('../pages/dashboard.vue'),
-          meta: { requiresAuth: true }
-        },
-        {
-          path: 'account-settings',
-          component: () => import('../pages/account-settings.vue'),
-          meta: { requiresAuth: true }
-        },
-        {
-          path: 'users',
-          component: () => import('../pages/users.vue'),
-          meta: { requiresAuth: true}
-        },
-        {
-          path: 'users/create',
-          component: () => import('../pages/UserForm.vue'),
-          meta: { requiresAuth: true}
-        },
-        { path: '/users/:id', component: () => import('../pages/User.vue'), },
-        { path: '/users/:id/edit', component: () => import('../pages/UserForm.vue'), },
+        { path: 'dashboard', component: () => import('../pages/dashboard.vue'), meta: {requiresAuth: true} },
+        
+        { path: 'account-settings',component: () => import('../pages/account-settings.vue'),meta: { requiresAuth: true} },
+        
+        { path: 'users', component: () => import('../pages/users.vue'), meta: { requiresAuth: true} },
+        { path: 'users/create', component: () => import('../pages/UserForm.vue'), meta: { requiresAuth: true} },
+        { path: '/users/:id', component: () => import('../pages/User.vue'),meta: { requiresAuth: true} },
+        { path: '/users/:id/edit', component: () => import('../pages/UserForm.vue'),meta: { requiresAuth: true} },
+
+        { path: 'events', component: () => import('../pages/events.vue'), meta: { requiresAuth: true} },
+        { path: 'events/create', component: () => import('../pages/EventForm.vue'), meta: { requiresAuth: true} },
+        { path: '/events/:id', component: () => import('../pages/Event.vue'),meta: { requiresAuth: true} },
+        { path: '/events/:id/edit', component: () => import('../pages/EventForm.vue'),meta: { requiresAuth: true} },
         
       ],
     },

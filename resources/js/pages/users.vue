@@ -15,7 +15,7 @@
       </template>
     </v-data-table> -->
     <v-container>
-    <table class="table">
+    <table class="table" width="100%">
       <thead>
         <tr>
           <th scope="col">#</th>
@@ -39,7 +39,7 @@
                 <v-btn color="primary">View</v-btn>
               </router-link>
               <router-link :to="`/users/${user.id}/edit`">
-                <v-btn color="success">Edit</v-btn>
+                <v-btn color="primary">Edit</v-btn>
               </router-link>
               <v-btn @click="deleteUser(user.id)" color="error">Delete</v-btn>
             </v-row>
