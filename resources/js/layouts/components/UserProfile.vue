@@ -110,7 +110,7 @@ import avatar1 from '@images/avatars/avatar-1.png'
           <VDivider class="my-2" />
 
           <!-- 👉 Logout -->
-          <VListItem to="/login">
+          <VListItem v-on:click.native="logout">
             <template #prepend>
               <VIcon
                 class="me-2"
@@ -121,9 +121,45 @@ import avatar1 from '@images/avatars/avatar-1.png'
 
             <VListItemTitle>Logout</VListItemTitle>
           </VListItem>
+
+          <!-- <div @click="logout" class="custom-button">
+            <VIcon class="me-2" icon="bx-log-out" size="22" />
+            Logout
+          </div> -->
+
         </VList>
       </VMenu>
       <!-- !SECTION -->
     </VAvatar>
   </VBadge>
 </template>
+<script>
+import axios from 'axios'
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+export default {
+  setup() {
+    const router = useRouter();
+    
+    const logout = async () => {
+      try {
+        await axios.post('/logout', null,  {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        });
+        
+        localStorage.removeItem('token'); 
+        router.push('/login'); 
+      } catch (error) {
+        console.error('Logout failed:', error);
+      }
+    };
+
+    return {
+      logout,
+    };
+  },
+};
+</script>
