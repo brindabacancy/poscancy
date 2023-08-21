@@ -16,8 +16,12 @@ use App\Http\Controllers\EventController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+Route::group(['middleware' => 'auth:sanctum'], function () {
+    
 });
 Route::resource('users', UserController::class);
 Route::resource('events', EventController::class);
+Route::post('login', [UserController::class, 'login']);

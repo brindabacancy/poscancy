@@ -1,25 +1,57 @@
-<script setup>
-import AuthProvider from '@/views/pages/authentication/AuthProvider.vue'
+<script>
+import { ref } from 'vue';
 import { useTheme } from 'vuetify'
 import logo from '@images/logo.svg?raw'
-import authV1MaskDark from '@images/pages/auth-v1-mask-dark.png'
-import authV1MaskLight from '@images/pages/auth-v1-mask-light.png'
-import authV1Tree2 from '@images/pages/auth-v1-tree-2.png'
-import authV1Tree from '@images/pages/auth-v1-tree.png'
+import { useRouter } from 'vue-router';
+import axios from 'axios'
 
-const form = ref({
-  email: '',
-  password: '',
-  remember: false,
-})
+export default {
+  name: 'Login',
+  setup() {
+    const vuetifyTheme = useTheme()
+    const router = useRouter(); 
+    
+    const isPasswordVisible = ref(false)
 
-const vuetifyTheme = useTheme()
+    const email = ref('');
+    const password = ref('');
+    const message = ref('');
 
-const authThemeMask = computed(() => {
-  return vuetifyTheme.global.name.value === 'light' ? authV1MaskLight : authV1MaskDark
-})
+    const submitForm = async () => {
+      const credentials = {
+        email: email.value,
+        password: password.value,
+      };
 
-const isPasswordVisible = ref(false)
+      try {
+        const response = await fetch('/api/login', {
+                              method: 'POST',
+                              headers: {
+                                'Content-Type': 'application/json',
+                              },
+                              body: JSON.stringify(credentials),
+                          });
+        const data = await response.json();
+        console.log("data",data);
+        localStorage.setItem('token', data.token);
+        router.push('/dashboard');
+        message.value = 'Success!'; 
+      } catch (error) {
+        console.error(error);
+        message.value = 'An error occurred';
+      }
+    };
+
+    return {
+      email,
+      password,
+      message,
+      submitForm,
+      isPasswordVisible,
+      logo
+    };
+  },
+};
 </script>
 
 <template>
@@ -36,13 +68,13 @@ const isPasswordVisible = ref(false)
         </template>
 
         <VCardTitle class="font-weight-semibold text-2xl text-uppercase">
-          Materio
+          Poscancy
         </VCardTitle>
       </VCardItem>
 
       <VCardText class="pt-2">
         <h5 class="text-h5 font-weight-semibold mb-1">
-          Welcome to Materio! 👋🏻
+          Welcome to Poscancy! 👋🏻
         </h5>
         <p class="mb-0">
           Please sign-in to your account and start the adventure
@@ -50,12 +82,14 @@ const isPasswordVisible = ref(false)
       </VCardText>
 
       <VCardText>
-        <VForm @submit.prevent="() => {}">
+        <VForm @submit.prevent="submitForm">
           <VRow>
             <!-- email -->
             <VCol cols="12">
               <VTextField
-                v-model="form.email"
+                v-model="email"
+                autofocus
+                placeholder="test@email.com"
                 label="Email"
                 type="email"
               />
@@ -64,92 +98,72 @@ const isPasswordVisible = ref(false)
             <!-- password -->
             <VCol cols="12">
               <VTextField
-                v-model="form.password"
+                v-model="password"
                 label="Password"
+                placeholder="············"
                 :type="isPasswordVisible ? 'text' : 'password'"
-                :append-inner-icon="isPasswordVisible ? 'mdi-eye-off-outline' : 'mdi-eye-outline'"
+                :append-inner-icon="isPasswordVisible ? 'bx-hide' : 'bx-show'"
                 @click:append-inner="isPasswordVisible = !isPasswordVisible"
               />
-
-              <!-- remember me checkbox -->
-              <div class="d-flex align-center justify-space-between flex-wrap mt-1 mb-4">
-                <VCheckbox
-                  v-model="form.remember"
-                  label="Remember me"
-                />
-
-                <a
-                  class="ms-2 mb-1"
-                  href="javascript:void(0)"
-                >
-                  Forgot Password?
-                </a>
-              </div>
 
               <!-- login button -->
               <VBtn
                 block
                 type="submit"
-                to="/"
               >
                 Login
               </VBtn>
             </VCol>
 
-            <!-- create account -->
-            <VCol
-              cols="12"
-              class="text-center text-base"
-            >
-              <span>New on our platform?</span>
-              <RouterLink
-                class="text-primary ms-2"
-                to="/register"
-              >
-                Create an account
-              </RouterLink>
-            </VCol>
-
-            <VCol
-              cols="12"
-              class="d-flex align-center"
-            >
-              <VDivider />
-              <span class="mx-4">or</span>
-              <VDivider />
-            </VCol>
-
-            <!-- auth providers -->
-            <VCol
-              cols="12"
-              class="text-center"
-            >
-              <AuthProvider />
-            </VCol>
+            
           </VRow>
         </VForm>
       </VCardText>
+
     </VCard>
 
-    <VImg
-      class="auth-footer-start-tree d-none d-md-block"
-      :src="authV1Tree"
-      :width="250"
-    />
-
-    <VImg
-      :src="authV1Tree2"
-      class="auth-footer-end-tree d-none d-md-block"
-      :width="350"
-    />
-
-    <!-- bg img -->
-    <VImg
-      class="auth-footer-mask d-none d-md-block"
-      :src="authThemeMask"
-    />
+   
   </div>
 </template>
+
+<!-- <script>
+import axios from 'axios';
+import { ref } from 'vue'; // Import ref from Vue 3
+
+export default {
+  name: 'Login',
+  setup() {
+    const email = ref('');
+    const password = ref('');
+    const message = ref('');
+
+    const submitForm = async () => {
+      const credentials = {
+        email: email.value,
+        password: password.value,
+      };
+
+      try {
+        const response = await fetch('/api/login'); 
+        const data = await response.json();
+        localStorage.setItem('token', response.data.token);
+        this.$router.push('/dashboard');
+        message.value = 'Success!'; 
+      } catch (error) {
+        console.error(error);
+        message.value = 'An error occurred';
+      }
+    };
+
+    return {
+      email,
+      password,
+      message,
+      submitForm,
+    };
+  },
+};
+</script> -->
 
 <style lang="scss">
 @use "@core-scss/pages/page-auth.scss";

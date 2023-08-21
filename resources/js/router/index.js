@@ -31,7 +31,6 @@ const router = createRouter({
         {
           path: 'login',
           component: () => import('../pages/login.vue'),
-          name: 'Login'
         },
         {
           path: 'register',
@@ -57,5 +56,13 @@ const router = createRouter({
 //     next()
 //   }
 // })
+
+// router.beforeEach((to, from, next) => {
+//   if (to.meta.requiresAuth && !localStorage.getItem('token')) {
+//     next('/');
+//   } else {
+//     next();
+//   }
+// });
 
 export default router
